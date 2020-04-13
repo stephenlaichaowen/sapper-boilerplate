@@ -462,7 +462,7 @@ npm run watch:tailwind
 
 🛎️ If you want to upload static website to Netlify, Github Pages, or Firebase Hosting, please run `npm run build:tailwind` first to generate `index.css`, which is a purged css file and will be placed in the `__sapper__\export` directory; Then run `npm run export` to generate static files !!!
 
-🛎️ If you want to upload production build to Heroku, you don't run `npm run build`, because it will cause compiler errors; instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
+🛎️ If you want to upload your app with backend functionality to Heroku, you don't run `npm run build`, because it will cause compiler errors; instead you run heroku-cli to automatically build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
 
 ### Install Tailwind 
 
