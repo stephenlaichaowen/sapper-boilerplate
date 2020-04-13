@@ -29,6 +29,8 @@ npm run watch:tailwind
 
 If you want to upload production build to Heroku, you don't run `npm run build`, instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
 
+🛎️🛎️🛎️ When you run `npm run export` or `npm run build`, make sure `__sapper__\' directory is empty, if not, delete the existing folders, or the compiler will show error message !!!
+
 ### Install Tailwind 
 
 Tailwind is ready to use out of box, but in case if you want to manually install in your newly created sapper project, you should follow the steps to complete.
