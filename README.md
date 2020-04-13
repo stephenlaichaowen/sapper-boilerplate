@@ -106,8 +106,7 @@ Finally, add a stylesheet link to your `src/template.html` file
 <link rel="stylesheet" href="index.css" />
 ```
 
-
-## Deploy your sapper project to cloud hosting services
+## Deploy your Sapper App to cloud hosting services
 
 ### Deploy to Netlify
 
@@ -127,7 +126,7 @@ or you can push your local project to remote git repo and upload to Netlify
 - Under 'Deploy settings for yourname/projectname' enter `npm run export` (skip this step if you already run `npm run export` locally)
 - Enter `__sapper__/export` in 'Publish directory' input box, then click 'Deploy site' button
 
-### Deploy Sapper project(without backend functionality) to Firebase Hosting
+### Deploy to Firebase Hosting
 
 First you need to install firebase cli tools
 ```
@@ -177,8 +176,7 @@ Most steps are the same as 'Deploy Sapper project to Firebase Hosting' except th
 
 ### Deploy to Heroku
 
-If your sapper project containes backend functionality, you have to deploy your app to Heroku hosting. You don't need to generate a production-ready build manually because Heroku will take care of build process under the hood after you push your local git repo to herou
-
+If your sapper app containes backend functionality, you have to deploy your app to Heroku hosting. You simply run heroku-cli to automatically build and deploy to Heroku hosting
 
 Make sure you have created a local git repo and connected to remote repo
 ```
