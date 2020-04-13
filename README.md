@@ -1,111 +1,213 @@
-# sapper-template
+# Sapper boilerplate
+
+What is Sapper ? It is a framework that combines Svelte and backend functionality(pulka or express) with SSR(Service Side Rendering) support, equivalent to Nuxt(Vue), Next(React). It allows developers to create dazzling full-stack web app with friendly SEO(Search Engine Optimization) support without hassle 
 
 The default [Sapper](https://github.com/sveltejs/sapper) template, available for Rollup and webpack.
 
-
-## Getting started
-
-
-### Using `degit`
-
-[`degit`](https://github.com/Rich-Harris/degit) is a scaffolding tool that lets you create a directory from a branch in a repository. Use either the `rollup` or `webpack` branch in `sapper-template`:
-
-```bash
-# for Rollup
-npx degit "sveltejs/sapper-template#rollup" my-app
-# for webpack
+### Install Sapper 
+Because there is something wrong with rollup, so we choose webpack version to make it work
+```
 npx degit "sveltejs/sapper-template#webpack" my-app
 ```
 
-
-### Using GitHub templates
-
-Alternatively, you can use GitHub's template feature with the [sapper-template-rollup](https://github.com/sveltejs/sapper-template-rollup) or [sapper-template-webpack](https://github.com/sveltejs/sapper-template-webpack) repositories.
-
-
-### Running the project
-
-However you get the code, you can install dependencies and run the project in development mode with:
-
-```bash
+Then change directory to my-app, your project must be child folder or the compiler won't find it !!!
+```
 cd my-app
-npm install # or yarn
+```
+
+Install the dependencies and start the dev server
+```
+npm i
+
 npm run dev
 ```
 
-Open up [localhost:3000](http://localhost:3000) and start clicking around.
-
-Consult [sapper.svelte.dev](https://sapper.svelte.dev) for help getting started.
-
-
-## Structure
-
-Sapper expects to find two directories in the root of your project —  `src` and `static`.
-
-
-### src
-
-The [src](src) directory contains the entry points for your app — `client.js`, `server.js` and (optionally) a `service-worker.js` — along with a `template.html` file and a `routes` directory.
-
-
-#### src/routes
-
-This is the heart of your Sapper app. There are two kinds of routes — *pages*, and *server routes*.
-
-**Pages** are Svelte components written in `.svelte` files. When a user first visits the application, they will be served a server-rendered version of the route in question, plus some JavaScript that 'hydrates' the page and initialises a client-side router. From that point forward, navigating to other pages is handled entirely on the client for a fast, app-like feel. (Sapper will preload and cache the code for these subsequent pages, so that navigation is instantaneous.)
-
-**Server routes** are modules written in `.js` files, that export functions corresponding to HTTP methods. Each function receives Express `request` and `response` objects as arguments, plus a `next` function. This is useful for creating a JSON API, for example.
-
-There are three simple rules for naming the files that define your routes:
-
-* A file called `src/routes/about.svelte` corresponds to the `/about` route. A file called `src/routes/blog/[slug].svelte` corresponds to the `/blog/:slug` route, in which case `params.slug` is available to the route
-* The file `src/routes/index.svelte` (or `src/routes/index.js`) corresponds to the root of your app. `src/routes/about/index.svelte` is treated the same as `src/routes/about.svelte`.
-* Files and directories with a leading underscore do *not* create routes. This allows you to colocate helper modules and components with the routes that depend on them — for example you could have a file called `src/routes/_helpers/datetime.js` and it would *not* create a `/_helpers/datetime` route
-
-
-### static
-
-The [static](static) directory contains any static assets that should be available. These are served using [sirv](https://github.com/lukeed/sirv).
-
-In your [service-worker.js](src/service-worker.js) file, you can import these as `files` from the generated manifest...
-
-```js
-import { files } from '@sapper/service-worker';
+Open another terminal and run this command
+```
+npm run watch:tailwind
 ```
 
-...so that you can cache them (though you can choose not to, for example if you don't want to cache very large files).
+If you want to upload production build to Heroku, you don't run `npm run build`, instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
 
+### Install Tailwind 
 
-## Bundler config
+Tailwind is ready to use out of box, but in case if you want to manually install in your newly created sapper project, you should follow the steps to complete.
 
-Sapper uses Rollup or webpack to provide code-splitting and dynamic imports, as well as compiling your Svelte components. With webpack, it also provides hot module reloading. As long as you don't do anything daft, you can edit the configuration files to add whatever plugins you'd like.
-
-
-## Production mode and deployment
-
-To start a production version of your app, run `npm run build && npm start`. This will disable live reloading, and activate the appropriate bundler plugins.
-
-You can deploy your application to any environment that supports Node 10 or above. As an example, to deploy to [ZEIT Now](https://zeit.co/now) when using `sapper export`, run these commands:
-
-```bash
-npm install -g now
-now
+Install Tailwind and postcss-cli
+```
+npm install tailwindcss postcss-cli --D
 ```
 
-If your app can't be exported to a static site, you can use the [now-sapper](https://github.com/thgh/now-sapper) builder. You can find instructions on how to do so in its [README](https://github.com/thgh/now-sapper#basic-usage).
+Remove unused styles, add PurgeCSS
+```
+npm install @fullhuman/postcss-purgecss
+```
 
+Create your Tailwind config file
+```
+npx tailwind init tailwind.js
+```
 
-## Using external components
+Create a `postcss.config.js` file and add this to it
+```
+const tailwindcss = require("tailwindcss");
 
-When using Svelte components installed from npm, such as [@sveltejs/svelte-virtual-list](https://github.com/sveltejs/svelte-virtual-list), Svelte needs the original component source (rather than any precompiled JavaScript that ships with the component). This allows the component to be rendered server-side, and also keeps your client-side app smaller.
+// only needed if you want to purge
+const purgecss = require("@fullhuman/postcss-purgecss")({
+  content: ["./src/**/*.svelte", "./src/**/*.html"],
+  defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+});
 
-Because of that, it's essential that the bundler doesn't treat the package as an *external dependency*. You can either modify the `external` option under `server` in [rollup.config.js](rollup.config.js) or the `externals` option in [webpack.config.js](webpack.config.js), or simply install the package to `devDependencies` rather than `dependencies`, which will cause it to get bundled (and therefore compiled) with your app:
+module.exports = {
+  plugins: [
+    tailwindcss("./tailwind.js"),
 
-```bash
-npm install -D @sveltejs/svelte-virtual-list
+    // only needed if you want to purge
+    ...(process.env.NODE_ENV === "production" ? [purgecss] : [])
+  ]
+};
+```
+
+Next, create a CSS file for your Tailwind styles. You have to store in it static folder `static/tailwind.css` and add this to it :
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Install cross-env, dotenv
+```
+npm cross-env dotenv
+```
+
+Create `.env` under root directory and place this command
+```
+NODE_ENV=production
+```
+
+Update your `package.json` with the custom scripts.
+```
+"scripts": {
+  "watch:tailwind": "postcss static/tailwind.css -o static/index.css -w",
+  "build:tailwind": "cross-env NODE_ENV=production postcss static/tailwind.css -o static/index. css" ,
+  "build": "npm run build:tailwind && sapper build --legacy"
+}
+```
+
+Finally, add a stylesheet link to your `src/template.html` file
+```
+<link rel="stylesheet" href="index.css" />
 ```
 
 
-## Bugs and feedback
+## Deploy your sapper project to cloud hosting services
 
-Sapper is in early development, and may have the odd rough edge here and there. Please be vocal over on the [Sapper issue tracker](https://github.com/sveltejs/sapper/issues).
+### Deploy to Netlify
+
+If you don't need an Express server, your site can be hosted and served as static files, which allows your site to be deployed to more hosting environments (such as Netlify, Firebase or Github Pages)
+
+Generate a production-ready build and all static files will be created under `__sapper__\export` directory
+```
+npm run export
+```
+
+You can drag and drop `__sapper__/export` folder to deploy your site in 'Sites' tab of your Netlify account
+
+or you can push your local project to remote git repo and upload to Netlify
+- Go to 'app.netlify.com/teams/yourname/site'
+- click 'New site from Git' button
+- Under 'Continuous Deployment: GitHub App' select project in the list or type project name in search box then click the project link
+- Under 'Deploy settings for yourname/projectname' enter `npm run export` (skip this step if you already run `npm run export` locally)
+- Enter `__sapper__/export` in 'Publish directory' input box, then click 'Deploy site' button
+
+### Deploy Sapper project(without backend functionality) to Firebase Hosting
+
+First you need to install firebase cli tools
+```
+npm i -g firebase-tools
+```
+
+Login to your firebase account(you can skip this step if you are already login)
+```
+firebase login
+```
+
+If something goes wrong, logout your firbase account then login again
+```
+firebase logout
+```
+
+Initialize firebase in your project, this will connect your local project to your firebase account
+```
+firebase init
+```
+
+Press `Enter` to select 'Hosting: Configure and deploy Firebase Hosting sites' 
+
+Press `SPACE` to select your firebase project
+
+Enter `__sapper__\export` as your public directory(When you build `sapper` project a `__sapper__\export` directory with procution-ready files will be generated and will overwrite this folder)
+
+Create a `__sapper__\export` folder with production-ready build
+```
+npm run export
+```
+
+Test your site locally before deploy to firebase
+```
+firebase serve
+```
+
+Finally deploy your project to fireabse hosting
+```
+firebase deploy
+```
+
+### Deploy static files to Firebase Hosting
+
+Most steps are the same as 'Deploy Sapper project to Firebase Hosting' except that you don't need to build your project for productin-ready, you simply choose `public` as your public directory and then place all static files in this folder 
+
+
+### Deploy to Heroku
+
+If your sapper project containes backend functionality, you have to deploy your app to Heroku hosting. You don't need to generate a production-ready build manually because Heroku will take care of build process under the hood after you push your local git repo to herou
+
+
+Make sure you have created a local git repo and connected to remote repo
+```
+git init
+git add .
+git commit -m your-commit-message
+git push origin master
+```
+
+Login your heroku account, this step is optional if you're already logged in
+```
+heroku login
+```
+
+Creating an app in your heroku account
+```
+heroku create
+```
+
+push your git master branch to heroku(Heroku will take care of build process under the hood)
+```
+git push heroku master
+```
+
+Open your app in browser
+```
+heroku open
+```
+  
+If you don't like the name heroku generated automatically, you can rename your app from cli
+```
+heroku apps:rename newname
+```
+
+However if you rename your app in heroku page, you have to update your app name from cli
+```
+git remote rm heroku
+heroku git:remote -a newname
+```
