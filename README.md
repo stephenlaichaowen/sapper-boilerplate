@@ -25,7 +25,7 @@ Start the dev server
 npm run dev
 ```
 
-Open another terminal and run this command
+Open another terminal and run this command to watch tailwindcss
 ```
 npm run watch:tailwind
 ```
