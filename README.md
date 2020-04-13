@@ -15,10 +15,13 @@ Then change directory to my-app, your project must be child folder or the compil
 cd my-app
 ```
 
-Install the dependencies and start the dev server
+Install the dependencies 
 ```
 npm i
+```
 
+Start the dev server
+```
 npm run dev
 ```
 
@@ -27,9 +30,11 @@ Open another terminal and run this command
 npm run watch:tailwind
 ```
 
-If you want to upload production build to Heroku, you don't run `npm run build`, instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
+🛎️ Before you run `npm run export`, run `npm run build:tailwind` to generate a production ready `tailwindcss` file !!!
 
-🛎️🛎️🛎️ When you run `npm run export` or `npm run build`, make sure `__sapper__\' directory is empty, if not, delete the existing folders, or the compiler will show error message !!!
+🛎️ If you want to upload production build to Heroku, you don't run `npm run build`, instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
+
+🛎️ When you run `npm run export` or `npm run build`, make sure `__sapper__\' directory is empty, if not, delete the existing folders, or the compiler will show error message !!!
 
 ### Install Tailwind 
 
