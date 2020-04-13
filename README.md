@@ -90,7 +90,7 @@ Update your `package.json` with the custom scripts.
 "scripts": {
   "watch:tailwind": "postcss static/tailwind.css -o static/index.css -w",
   "build:tailwind": "cross-env NODE_ENV=production postcss static/tailwind.css -o static/index. css" ,
-  "build": "npm run build:tailwind && sapper build --legacy"
+  "build": "npm run build:tailwind && sapper build"
 }
 ```
 
