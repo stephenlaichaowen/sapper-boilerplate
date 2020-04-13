@@ -30,11 +30,11 @@ Open another terminal and run this command
 npm run watch:tailwind
 ```
 
-🛎️ Before you run `npm run export`, run `npm run build:tailwind` to generate a production ready `tailwindcss` file !!!
+🛎️ If you want to upload static website to Netlify, Github Pages, or Firebase Hosting, be sure to run `npm run build:tailwind` to generate a production ready `tailwindcss` file, then run `npm run export` to generate static files under `__sapper__\export' !!!
 
 🛎️ If you want to upload production build to Heroku, you don't run `npm run build`, instead you run heroku-cli to build and deploy to heroku. To deploy your app in heroku, see the below instrouctions !!!
 
-🛎️ When you run `npm run export` or `npm run build`, make sure `__sapper__\' directory is empty, if not, delete the existing folders, or the compiler will show error message !!!
+🛎️ When you run `npm run export` or `npm run build` first, make sure `__sapper__\' directory is empty, if not, delete the existing folders, or the compiler will show error message !!!
 
 ### Install Tailwind 
 
